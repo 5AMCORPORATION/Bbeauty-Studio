@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1439,5 +1440,1165 @@ a{
 </div>
 
 
-<!-- SUMMARY --
+<!-- SUMMARY -->
+
+<aside class="summary reveal">
+
+<h3>
+    Tu cita
+</h3>
+
+<div class="summary-row">
+    <span>Especialista</span>
+    <strong id="sumBarber">—</strong>
+</div>
+
+<div class="summary-row">
+    <span>Servicio</span>
+    <strong id="sumService">—</strong>
+</div>
+
+<div class="summary-row">
+    <span>Extras</span>
+    <strong id="sumExtras">—</strong>
+</div>
+
+<div class="summary-row">
+    <span>Productos</span>
+    <strong id="sumProducts">—</strong>
+</div>
+
+<div class="summary-row">
+    <span>Fecha</span>
+    <strong id="sumDate">—</strong>
+</div>
+
+<div class="summary-row">
+    <span>Horario</span>
+    <strong id="sumTime">—</strong>
+</div>
+
+<div class="summary-total">
+    <span>Total</span>
+    <span id="sumTotal">$0</span>
+</div>
+
+<button class="whatsapp-btn" onclick="sendWhatsApp()">
+    Confirmar por WhatsApp
+</button>
+
+<div class="note">
+    La solicitud se enviará al WhatsApp del Beauty Studio.
+    La cita queda sujeta a confirmación.
+</div>
+
+</aside>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- UBICACIÓN -->
+
+<section class="section" id="ubicacion">
+
+<div class="container">
+
+<div class="location">
+
+<div class="location-card reveal">
+
+<span class="section-label">Visit us</span>
+
+<h2>
+    Ven a vivir la experiencia.
+</h2>
+
+<p>
+    Estamos listos para recibirte. Consulta nuestra ubicación
+    y agenda tu próxima visita.
+</p>
+
+
+<div class="location-item">
+
+<div class="location-icon">⌖</div>
+
+<div>
+<strong>Ubicación</strong>
+<span>Ciudad de México, México</span>
+</div>
+
+</div>
+
+
+<div class="location-item">
+
+<div class="location-icon">◷</div>
+
+<div>
+<strong>Horario</strong>
+<span>Lunes — Sábado · 09:00 — 20:00</span>
+</div>
+
+</div>
+
+
+<div class="location-item">
+
+<div class="location-icon">✆</div>
+
+<div>
+<strong>WhatsApp</strong>
+<span>55 3377 12767</span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="map reveal">
+
+<iframe
+src="https://www.google.com/maps?q=Ciudad%20de%20M%C3%A9xico%2C%20M%C3%A9xico&output=embed"
+loading="lazy"
+allowfullscreen
+referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+<div class="container footer-inner">
+
+<div class="logo">
+
+<div class="logo-mark">
+B
+</div>
+
+<div class="logo-text">
+<strong>Beauty Studio</strong>
+<span>Beauty · Care · Experience</span>
+</div>
+
+</div>
+
+<p>
+© 2026 Beauty Studio. Todos los derechos reservados.
+</p>
+
+</div>
+
+</footer>
+
+
+<div class="mobile-cta">
+<button onclick="scrollToBooking()">
+    Reservar mi cita
+</button>
+</div>
+
+
+<script>
+
+/* ==========================================
+   CONFIGURACIÓN
+========================================== */
+
+const WHATSAPP = "5255337712767";
+
+/*
+    Cambia esta variable por la dirección
+    real del Beauty Studio.
+*/
+const MAP_QUERY = "Ciudad de México, México";
+
+
+/*
+    Horarios bloqueados globalmente.
+
+    IMPORTANTE:
+    Al ser una página HTML sin base de datos,
+    estos bloqueos deben administrarse manualmente.
+*/
+const BLOCKED_SLOTS = [
+    // "2026-09-20|11:00",
+    // "2026-09-20|12:00"
+];
+
+
+/* ==========================================
+   DATA
+========================================== */
+
+const barbers = [
+
+{
+    id:"sofia",
+    name:"Sofía",
+    specialty:"Beauty Specialist",
+    image:"https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=700&q=85"
+},
+
+{
+    id:"valeria",
+    name:"Valeria",
+    specialty:"Hair & Beauty Artist",
+    image:"https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=85"
+},
+
+{
+    id:"camila",
+    name:"Camila",
+    specialty:"Beauty Specialist",
+    image:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=700&q=85"
+},
+
+{
+    id:"daniela",
+    name:"Daniela",
+    specialty:"Color & Beauty",
+    image:"https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=700&q=85"
+}
+
+];
+
+
+const services = [
+
+{
+    id:"hair",
+    name:"Hair Styling",
+    price:450,
+    duration:"60 min"
+},
+
+{
+    id:"color",
+    name:"Color & Glow",
+    price:950,
+    duration:"120 min"
+},
+
+{
+    id:"brows",
+    name:"Beauty Brows",
+    price:250,
+    duration:"30 min"
+},
+
+{
+    id:"facial",
+    name:"Facial Glow",
+    price:550,
+    duration:"50 min"
+}
+
+];
+
+
+const extras = [
+
+{
+    id:"mask",
+    name:"Mascarilla facial",
+    description:"Tratamiento hidratante.",
+    price:150
+},
+
+{
+    id:"eyebrows",
+    name:"Diseño de cejas",
+    description:"Definición y acabado.",
+    price:120
+},
+
+{
+    id:"beard",
+    name:"Perfilado",
+    description:"Detalle y acabado.",
+    price:130
+}
+
+];
+
+
+const products = [
+
+{
+    id:"oil",
+    name:"Beauty Hair Oil",
+    description:"Aceite nutritivo.",
+    price:280
+},
+
+{
+    id:"maskProduct",
+    name:"Repair Mask",
+    description:"Mascarilla capilar.",
+    price:320
+},
+
+{
+    id:"serum",
+    name:"Glow Serum",
+    description:"Sérum facial.",
+    price:390
+}
+
+];
+
+
+/* ==========================================
+   STATE
+========================================== */
+
+const state = {
+
+    barber:null,
+
+    service:null,
+
+    extras:[],
+
+    products:[],
+
+    date:null,
+
+    time:null
+
+};
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+const money = value =>
+    new Intl.NumberFormat("es-MX",{
+        style:"currency",
+        currency:"MXN",
+        maximumFractionDigits:0
+    }).format(value);
+
+
+function getTotal(){
+
+    let total = 0;
+
+    if(state.service){
+        total += state.service.price;
+    }
+
+    state.extras.forEach(item=>{
+        total += item.price;
+    });
+
+    state.products.forEach(item=>{
+        total += item.price;
+    });
+
+    return total;
+}
+
+
+/* ==========================================
+   RENDER BARBERS
+========================================== */
+
+function renderBarbers(){
+
+    const container = document.getElementById("barberList");
+
+    container.innerHTML = barbers.map(barber=>`
+
+        <article
+            class="barber-card ${state.barber?.id===barber.id?"selected":""}"
+            onclick="selectBarber('${barber.id}')"
+        >
+
+            <div class="barber-image">
+
+                <img
+                    src="${barber.image}"
+                    alt="${barber.name}"
+                    loading="lazy"
+                >
+
+            </div>
+
+            <div class="card-content">
+
+                <h4>${barber.name}</h4>
+
+                <p>${barber.specialty}</p>
+
+                <div class="card-price">
+
+                    <span style="font-size:11px;color:var(--muted);">
+                        Disponible
+                    </span>
+
+                    <span class="select-indicator">
+                        ✓
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    `).join("");
+
+}
+
+
+function selectBarber(id){
+
+    state.barber = barbers.find(x=>x.id===id);
+
+    renderBarbers();
+    updateSummary();
+
+}
+
+
+/* ==========================================
+   SERVICES
+========================================== */
+
+function renderServices(){
+
+    const container = document.getElementById("serviceList");
+
+    container.innerHTML = services.map(service=>`
+
+        <article
+            class="service-card ${state.service?.id===service.id?"selected":""}"
+            onclick="selectService('${service.id}')"
+        >
+
+            <div class="service-top">
+
+                <h4>${service.name}</h4>
+
+                <span class="price">
+                    ${money(service.price)}
+                </span>
+
+            </div>
+
+            <p>
+                Servicio personalizado Beauty Studio.
+            </p>
+
+            <small>
+                ${service.duration}
+            </small>
+
+        </article>
+
+    `).join("");
+
+}
+
+
+function selectService(id){
+
+    state.service = services.find(x=>x.id===id);
+
+    renderServices();
+    updateSummary();
+
+}
+
+
+/* ==========================================
+   EXTRAS
+========================================== */
+
+function renderExtras(){
+
+    const container = document.getElementById("extraList");
+
+    container.innerHTML = extras.map(extra=>{
+
+        const selected =
+            state.extras.some(x=>x.id===extra.id);
+
+        return `
+
+        <article
+            class="extra-card ${selected?"selected":""}"
+            onclick="toggleExtra('${extra.id}')"
+        >
+
+            <div class="service-top">
+
+                <h4>${extra.name}</h4>
+
+                <span class="price">
+                    +${money(extra.price)}
+                </span>
+
+            </div>
+
+            <p>
+                ${extra.description}
+            </p>
+
+        </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+function toggleExtra(id){
+
+    const item = extras.find(x=>x.id===id);
+
+    const exists =
+        state.extras.some(x=>x.id===id);
+
+    if(exists){
+
+        state.extras =
+            state.extras.filter(x=>x.id!==id);
+
+    }else{
+
+        state.extras.push(item);
+
+    }
+
+    renderExtras();
+    updateSummary();
+
+}
+
+
+/* ==========================================
+   PRODUCTS
+========================================== */
+
+function renderProducts(){
+
+    const container =
+        document.getElementById("productList");
+
+    container.innerHTML =
+        products.map(product=>{
+
+            const selected =
+                state.products.some(x=>x.id===product.id);
+
+            return `
+
+            <article
+                class="product-card ${selected?"selected":""}"
+                onclick="toggleProduct('${product.id}')"
+            >
+
+                <div class="product-top">
+
+                    <h4>
+                        ${product.name}
+                    </h4>
+
+                    <span class="price">
+                        +${money(product.price)}
+                    </span>
+
+                </div>
+
+                <p>
+                    ${product.description}
+                </p>
+
+            </article>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function toggleProduct(id){
+
+    const item =
+        products.find(x=>x.id===id);
+
+    const exists =
+        state.products.some(x=>x.id===id);
+
+    if(exists){
+
+        state.products =
+            state.products.filter(x=>x.id!==id);
+
+    }else{
+
+        state.products.push(item);
+
+    }
+
+    renderProducts();
+    updateSummary();
+
+}
+
+
+/* ==========================================
+   DATES
+========================================== */
+
+function formatDate(date){
+
+    return date.toLocaleDateString(
+        "es-MX",
+        {
+            day:"numeric",
+            month:"short"
+        }
+    );
+
+}
+
+
+function getDateKey(date){
+
+    const year =
+        date.getFullYear();
+
+    const month =
+        String(date.getMonth()+1).padStart(2,"0");
+
+    const day =
+        String(date.getDate()).padStart(2,"0");
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+function renderDates(){
+
+    const container =
+        document.getElementById("dateList");
+
+    const dates = [];
+
+    const today = new Date();
+
+    for(let i=0;i<14;i++){
+
+        const date = new Date();
+
+        date.setDate(
+            today.getDate()+i
+        );
+
+        dates.push(date);
+
+    }
+
+    container.innerHTML =
+        dates.map((date,index)=>{
+
+            const key =
+                getDateKey(date);
+
+            const day =
+                index===0
+                    ? "Hoy"
+                    : date.toLocaleDateString(
+                        "es-MX",
+                        {weekday:"short"}
+                    );
+
+            return `
+
+            <button
+                class="date-btn ${state.date===key?"selected":""}"
+                onclick="selectDate('${key}')"
+            >
+
+                <span class="day">
+                    ${day}
+                </span>
+
+                <span class="date">
+                    ${formatDate(date)}
+                </span>
+
+            </button>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function selectDate(date){
+
+    state.date = date;
+    state.time = null;
+
+    renderDates();
+    renderTimes();
+    updateSummary();
+
+}
+
+
+/* ==========================================
+   TIME SLOTS
+========================================== */
+
+function renderTimes(){
+
+    const container =
+        document.getElementById("timeList");
+
+    const slots = [
+
+        "09:00",
+        "09:30",
+        "10:00",
+        "10:30",
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "13:30",
+        "14:00",
+        "14:30",
+        "15:00",
+        "15:30",
+        "16:00",
+        "16:30",
+        "17:00",
+        "17:30",
+        "18:00",
+        "18:30",
+        "19:00",
+        "19:30"
+
+    ];
+
+    if(!state.date){
+
+        container.innerHTML =
+            `<p style="grid-column:1/-1;color:var(--muted);font-size:12px;">
+                Selecciona primero una fecha.
+            </p>`;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        slots.map(time=>{
+
+            const blocked =
+                isBlocked(state.date,time);
+
+            return `
+
+            <button
+                class="time-btn
+                ${state.time===time?"selected":""}
+                ${blocked?"disabled":""}"
+                ${blocked?"disabled":""}
+                onclick="${blocked?"":"selectTime('"+time+"')"}"
+            >
+
+                ${time}
+
+            </button>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function isBlocked(date,time){
+
+    const manual =
+        BLOCKED_SLOTS.includes(
+            `${date}|${time}`
+        );
+
+    const local =
+        getLocalReservations();
+
+    const localBlocked =
+        local.includes(
+            `${date}|${time}`
+        );
+
+    return manual || localBlocked;
+
+}
+
+
+function selectTime(time){
+
+    state.time = time;
+
+    renderTimes();
+    updateSummary();
+
+}
+
+
+/* ==========================================
+   LOCAL STORAGE
+========================================== */
+
+function getLocalReservations(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                "beautyStudioPendingSlots"
+            )
+        ) || [];
+
+    }catch{
+
+        return [];
+
+    }
+
+}
+
+
+function saveLocalReservation(){
+
+    if(!state.date || !state.time)
+        return;
+
+    const reservations =
+        getLocalReservations();
+
+    const slot =
+        `${state.date}|${state.time}`;
+
+    if(!reservations.includes(slot)){
+
+        reservations.push(slot);
+
+        localStorage.setItem(
+            "beautyStudioPendingSlots",
+            JSON.stringify(reservations)
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SUMMARY
+========================================== */
+
+function updateSummary(){
+
+    document.getElementById("sumBarber").textContent =
+        state.barber?.name || "—";
+
+    document.getElementById("sumService").textContent =
+        state.service?.name || "—";
+
+    document.getElementById("sumExtras").textContent =
+        state.extras.length
+            ? money(
+                state.extras.reduce(
+                    (a,b)=>a+b.price,
+                    0
+                )
+            )
+            : "—";
+
+    document.getElementById("sumProducts").textContent =
+        state.products.length
+            ? money(
+                state.products.reduce(
+                    (a,b)=>a+b.price,
+                    0
+                )
+            )
+            : "—";
+
+    document.getElementById("sumDate").textContent =
+        state.date || "—";
+
+    document.getElementById("sumTime").textContent =
+        state.time || "—";
+
+    document.getElementById("sumTotal").textContent =
+        money(getTotal());
+
+}
+
+
+/* ==========================================
+   WHATSAPP
+========================================== */
+
+function sendWhatsApp(){
+
+    const name =
+        document.getElementById(
+            "customerName"
+        ).value.trim();
+
+    const phone =
+        document.getElementById(
+            "customerPhone"
+        ).value.trim();
+
+    const notes =
+        document.getElementById(
+            "customerNotes"
+        ).value.trim();
+
+
+    if(!state.barber){
+
+        alert("Selecciona un especialista.");
+
+        return;
+
+    }
+
+    if(!state.service){
+
+        alert("Selecciona un servicio.");
+
+        return;
+
+    }
+
+    if(!state.date){
+
+        alert("Selecciona una fecha.");
+
+        return;
+
+    }
+
+    if(!state.time){
+
+        alert("Selecciona un horario.");
+
+        return;
+
+    }
+
+    if(!name){
+
+        alert("Escribe tu nombre.");
+
+        return;
+
+    }
+
+
+    const extrasText =
+        state.extras.length
+            ? state.extras
+                .map(x=>`${x.name} (${money(x.price)})`)
+                .join(", ")
+            : "Ninguno";
+
+
+    const productsText =
+        state.products.length
+            ? state.products
+                .map(x=>`${x.name} (${money(x.price)})`)
+                .join(", ")
+            : "Ninguno";
+
+
+    const message = `
+
+✨ *NUEVA SOLICITUD DE CITA — BEAUTY STUDIO* ✨
+
+👤 *Cliente*
+${name}
+
+📱 *WhatsApp*
+${phone || "No proporcionado"}
+
+💇‍♀️ *Especialista*
+${state.barber.name}
+
+💎 *Servicio*
+${state.service.name}
+
+➕ *Extras*
+${extrasText}
+
+🛍️ *Productos*
+${productsText}
+
+📅 *Fecha*
+${state.date}
+
+⏰ *Hora*
+${state.time}
+
+💰 *Total estimado*
+${money(getTotal())}
+
+📝 *Notas*
+${notes || "Sin notas"}
+
+━━━━━━━━━━━━━━━━
+
+La cita queda pendiente de confirmación por Beauty Studio.
+    `.trim();
+
+
+    saveLocalReservation();
+
+
+    const url =
+        `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
+
+
+    window.open(url,"_blank");
+
+}
+
+
+/* ==========================================
+   SCROLL
+========================================== */
+
+function scrollToBooking(){
+
+    document
+        .getElementById("reservar")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* ==========================================
+   MOBILE MENU
+========================================== */
+
+function toggleMenu(){
+
+    const nav =
+        document.querySelector(".nav-links");
+
+    const visible =
+        nav.style.display==="flex";
+
+    nav.style.display =
+        visible ? "" : "flex";
+
+    if(!visible){
+
+        nav.style.position="absolute";
+        nav.style.top="68px";
+        nav.style.left="12px";
+        nav.style.right="12px";
+        nav.style.padding="18px";
+        nav.style.borderRadius="20px";
+        nav.style.flexDirection="column";
+        nav.style.background="rgba(255,255,255,.95)";
+        nav.style.boxShadow="0 20px 50px rgba(50,30,25,.15)";
+
+    }
+
+}
+
+
+/* ==========================================
+   REVEAL ANIMATION
+========================================== */
+
+const observer =
+    new IntersectionObserver(
+        entries=>{
+
+            entries.forEach(entry=>{
+
+                if(entry.isIntersecting){
+
+                    entry.target.classList.add(
+                        "visible"
+                    );
+
+                    observer.unobserve(
+                        entry.target
+                    );
+
+                }
+
+            });
+
+        },
+        {
+            threshold:.12
+        }
+    );
+
+
+document
+    .querySelectorAll(".reveal")
+    .forEach(el=>{
+        observer.observe(el);
+    });
+
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+renderBarbers();
+renderServices();
+renderExtras();
+renderProducts();
+renderDates();
+renderTimes();
+updateSummary();
+
+
+</script>
+
+</body>
+</html>
 ```
